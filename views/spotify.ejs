@@ -1,0 +1,98 @@
+<%-include('./partials/headerSpot')%>
+<%-include('./partials/navbar')%>
+
+<div class="row">
+  <ul class="nav flex-column bg-black w-25 p-5">
+    <li class="nav-item">
+      <input type="search" name="" id="inp" placeholder="name artist">
+    </li>
+    <li class="nav-item">
+      <button class="bt nav-link my-2" href="#"><i class="fas fa-search"></i> Search</button>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#"><i class="fas fa-barcode"></i> You Library</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#"><button class="btn btn-light btnnav"><i class="fas fa-plus"></i></button></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#"><button class="btn btn-primary btnnav fiolet"><i
+            class="fas fa-heart"></i></button></a>
+    </li>
+  </ul>
+  <div class="box w-75 p-5 d-flex flex-wrap justify-content-evenly">
+  </div>
+  <div class="audio ">
+    <audio src="" controls frameborder="0"></audio>
+  </div>
+</div>
+
+<script>
+  const input = document.querySelector('#inp');
+  const btn = document.querySelector('.bt');
+
+  function start() {
+    let name = input.value;
+    const box = document.querySelector('.box');
+    const url = `https://api.spotify.com/v1/search?q=${name}%20&type=track`;
+
+    const getToken = async () => {
+      const clientId = '483c9b6305df442cbcb33b4842a97e37'
+      const clientSecret = 'a7c9da9e43994c3690b50330c81165fa'
+      const result = await fetch(`https://accounts.spotify.com/api/token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret)
+        },
+        body: 'grant_type=client_credentials'
+      })
+      const data = await result.json()
+      return data.access_token
+    }
+    const getData = async () => {
+      const token = await getToken()
+      const result = await fetch(url, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      })
+      const data = await result.json()
+      return data
+    }
+    getData().then(data => {
+
+      const artists = data.tracks.items
+      console.log(artists)
+      artists.forEach(artist => {
+
+        const div = document.createElement('div')
+        div.classList.add('card')
+        div.style.width = '8rem'
+        div.innerHTML = `<div class="card foto me-4" style="width: 8rem;"  onclick="kot()">
+        <a class="card"  ><img   data-id="${artist.preview_url}" src="${artist.album.images[1].url}"></a>
+      <div class="card-body ">
+        <p class="card-title fw-bold ">${artist.name}</p>
+        <p>wykonawca: ${artist.artists[0].name} popularity: ${artist.popularity}</p>
+        <a href="${artist.external_urls.spotify}" target="_blank" rel="noopener noreferrer">Link</a>
+
+      </div>
+    </div>`
+        box.appendChild(div)
+      })
+    })
+  }
+  btn.addEventListener('click', start);
+
+  const kot = () => {
+    const foto = document.querySelectorAll('.foto')
+    foto.forEach(fot => {
+      fot.addEventListener('click', (e) => {
+        const audio = document.querySelector('audio')
+        audio.src = e.target.dataset.id
+        audio.play()
+      })
+    })
+  }
+</script>
+<%-include('./partials/footer')%>

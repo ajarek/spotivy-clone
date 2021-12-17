@@ -1,0 +1,31 @@
+<%-include('./partials/header')%>
+
+<div class="container">
+    <div class="row d-flex justify-content-center w-100" >
+        <div class="col-12 d-flex justify-content-center mb-3 ">
+            <img src="images/logo.jpg" alt="logo">
+            <h1 class="text-left ms-2">Spotify</h1>
+
+        </div>
+        <div class="col-6 text-center"><a class="btn text-light active" href="/">SIGN IN</a></div>
+        <div class="col-6 text-center"><a class="btn text-light" href="register">SIGN UP</a></div>
+    </div>
+    <form action="/login/" method="post">
+        <div class="mb-3">
+            <input type="text" class="form-control" name="username" placeholder="Username">       
+        </div>
+        <div class="mb-3">
+           
+            <input type="password" class="form-control" name="password" placeholder="Password">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">stay signed in</label>
+        </div>
+        <div class="mb-3 ">
+            <button type="submit" class="btn spotify">SIGN IN </button>
+        </div>
+    </form>
+    <a class="btn text-secondary" href="#">Forgot Password?</a>
+</div>
+<%-include('./partials/footer')%>

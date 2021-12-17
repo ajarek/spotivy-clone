@@ -1,0 +1,35 @@
+<%-include('./partials/header')%>
+
+<div class="container">
+    <div class="row d-flex justify-content-center w-100">
+        <div class="col-12 d-flex justify-content-center mb-3 ">
+            <img src="images/logo.jpg" alt="logo">
+            <h1 class="text-left ms-2">Spotify</h1>
+
+        </div>
+        <div class="col-6 text-center"><a class="btn text-light " href="/">SIGN IN</a></div>
+        <div class="col-6 text-center"><a class="btn text-light active" href="/register">SIGN UP</a></div>
+    </div>
+    <form action="/register" method="post">
+        <div class="mb-3">
+            <input type="text" class="form-control" name="username" placeholder="Username" required>
+        </div>
+        <div class="mb-3">
+            <input type="email" class="form-control" name="email" placeholder="Email" required>
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" name="password" placeholder="Password">
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" name="repeat" placeholder="Repeat Password">
+        </div>
+        <% if (typeof errorMessage !== "undefined") { %>
+            <p class="bg-danger text-light p-1 rounded">🏳️<%= errorMessage %></p>
+            <% } %>
+        <div class="mb-3 ">
+            <button type="submit" class="btn spotify">SIGN UP </button>
+        </div>
+    </form>
+
+</div>
+<%-include('./partials/footer')%>
